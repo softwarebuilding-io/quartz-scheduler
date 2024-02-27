@@ -1,0 +1,18 @@
+spring:
+  ## Spring Datasource
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: admin
+    password: admin@1234
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        default_schema: public
+        hbm2ddl:
+          auto: none # none, validate, update, create, create-drop
+server:
+  servlet:
+    context-path: /fusion-plex
