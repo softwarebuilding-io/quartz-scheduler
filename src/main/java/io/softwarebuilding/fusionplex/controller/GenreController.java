@@ -73,14 +73,16 @@ public class GenreController {
                              final HttpSession session ) {
 
         if ( result.hasErrors() ) {
+            session.setAttribute( "errors", true );
             return "createEditGenre";
         }
 
         this.genreService.saveGenre( dto );
 
         sessionStatus.setComplete();
-        session.invalidate();
-        
+        session.removeAttribute( "genre" );
+        session.removeAttribute( "errors" );
+
         redirectAttributes.addFlashAttribute( "alertMessage", "Genre saved successfully" );
         redirectAttributes.addFlashAttribute( "alertType", "success" );
 

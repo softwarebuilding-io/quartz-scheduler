@@ -51,8 +51,8 @@ public class TitleController {
     @GetMapping("/title/create")
     public String showCreateTitlePage( final Model model, final HttpSession session ) {
 
-        final TitleDto dto = session.getAttribute( "title" ) != null
-                ? (TitleDto) session.getAttribute( "title" ) : new TitleDto();
+        final TitleDto dto = session.getAttribute( "errors" ) != null ? session.getAttribute( "title" ) != null
+                ? (TitleDto) session.getAttribute( "title" ) : new TitleDto() : new TitleDto();
 
         this.prepareModelForTitleForm( model, dto, false );
 
@@ -90,6 +90,7 @@ public class TitleController {
         final boolean editMode = dto.getId() != null;
 
         if ( result.hasErrors() ) {
+            session.setAttribute( "errors", true );
             this.prepareModelForTitleForm( model, dto, editMode );
 
             return "createEditTitle";
@@ -101,7 +102,8 @@ public class TitleController {
         redirectAttributes.addFlashAttribute( "alertType", "success" );
 
         sessionStatus.setComplete();
-        session.invalidate();
+        session.removeAttribute( "title" );
+        session.removeAttribute( "errors" );
 
         return "redirect:/title/manage";
     }

@@ -24,7 +24,7 @@ Additionally, familiarity with Spring Boot and PostgreSQL is recommended to full
 To obtain the initial project setup, use the base branch of this repository:
 
 ```bash
-git clone -b base git@github.com:softwarebuilding-io/fusion-plex.git
+git clone -b base git@github.com:brunomilitzer/fusion-plex.git
 
 cd fusion-plex
 ```

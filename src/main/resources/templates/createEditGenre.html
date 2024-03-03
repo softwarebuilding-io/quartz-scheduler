@@ -29,7 +29,7 @@
             <div class="invalid-feedback" th:errors="*{name}" th:if="${#fields.hasErrors('name')}">Name</div>
         </div>
         <div class="d-flex justify-content-center gap-2 mt-5">
-            <button class="btn btn-primary mt-5" type="submit">Submit</button>
+            <button class="btn btn-dark mt-5" type="submit">Submit</button>
             <!-- Cancel button -->
             <a class="btn btn-danger mt-5" th:href="@{/genre/manage}">Cancel</a>
         </div>

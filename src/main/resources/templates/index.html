@@ -15,8 +15,8 @@
 <div th:replace="~{fragments/fragments :: navbar}"></div>
 
 <div class="container-fluid mt-5 d-flex flex-column justify-content-center align-items-center" style="min-height: 80vh;">
-    <h1 class="text-center">Welcome to Fusion<span class="brand-bold-yellow">Plex</span></h1>
-    <h2 class="text-center mt-3">Your Movie, TV Series, Documentary <span class="yellow-text">Catalogue Management</span></h2>
+    <!-- Include the welcome fragment -->
+    <div th:replace="~{fragments/fragments :: welcome}"></div>
 </div>
 <script crossorigin="anonymous" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script th:src="@{/script/script.js}"></script>
