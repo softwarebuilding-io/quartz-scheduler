@@ -51,6 +51,14 @@ mvn clean compile -Pdocker
 ```
 This command cleans the project, compiles the source code, and runs a Docker profile defined in the pom.xml that sets up a PostgreSQL container suitable for development.
 
+### Database Connection
+
+- hostname: localhost
+- database: postgres
+- username: admin
+- password: admin@1234
+
+
 ### Running the Application
 After setting up the database, you can start the application by running:
 
