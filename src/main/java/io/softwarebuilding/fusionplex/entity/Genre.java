@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public class Genre extends BaseEntity {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "genres", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "genres", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     private Set<Title> titles = new HashSet<>();
 
     public UUID getId() {
@@ -41,11 +42,11 @@ public class Genre extends BaseEntity {
         this.name = name;
     }
 
-    public Set<Title> getMovies() {
+    public Set<Title> getTitles() {
         return this.titles;
     }
 
-    public void setMovies( final Set<Title> titles ) {
+    public void setTitles( final Set<Title> titles ) {
         this.titles = titles;
     }
 
@@ -57,6 +58,32 @@ public class Genre extends BaseEntity {
         if ( genre.getName() != null || !genre.getName().equalsIgnoreCase( this.name ) ) {
             this.name = genre.getName();
         }
+
+        if ( genre.getTitles() != null || !genre.getTitles().equals( this.titles ) ) {
+            this.addAllTitle(genre.getTitles());
+        }
     }
 
+    public void addTitle(final Title title) {
+        this.titles.add( title );
+        title.addGenre(this);
+    }
+
+    public void addAllTitle(final Set<Title> titles) {
+        titles.forEach(title -> title.addGenre(this));
+        this.titles.addAll(titles);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Genre genre = (Genre) o;
+        return Objects.equals(name, genre.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(name);
+    }
 }

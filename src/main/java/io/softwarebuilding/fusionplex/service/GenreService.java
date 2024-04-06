@@ -32,20 +32,12 @@ public class GenreService {
                 .orElseThrow( () -> new ResponseStatusException( HttpStatus.NOT_FOUND, "Genre not Found!" ) );
     }
 
-    public void saveGenre( final GenreDto dto ) {
+    public void saveGenre(final GenreDto dto) {
 
-        this.genreRepository.findByName( dto.getName() ).ifPresentOrElse( genre -> { }, () -> {
-
-            if ( dto.getId() != null ) {
-                this.genreRepository.findById( dto.getId() ).ifPresent( genre -> {
-                    genre.map( this.getModelMapper().map( dto, Genre.class ) );
-
-                    this.genreRepository.save( genre );
-                } );
-            } else {
-                this.genreRepository.save( this.getModelMapper().map( dto, Genre.class ) );
-            }
-        } );
+        this.genreRepository.findByName(dto.getName()).ifPresentOrElse(genre -> {
+            genre.map(this.getModelMapper().map(dto, Genre.class));
+            this.genreRepository.save(genre);
+        }, () -> this.genreRepository.save(this.getModelMapper().map(dto, Genre.class)));
     }
 
     public void delete( final UUID id ) {

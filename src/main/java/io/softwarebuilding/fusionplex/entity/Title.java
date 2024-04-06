@@ -1,17 +1,7 @@
 package io.softwarebuilding.fusionplex.entity;
 
 import io.softwarebuilding.fusionplex.enums.ElementType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ForeignKey;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.util.HashSet;
@@ -43,7 +33,7 @@ public class Title extends BaseEntity {
     @Column(name = "type", nullable = false)
     private ElementType type;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinTable(
             name = "title_genre",
             joinColumns = @JoinColumn(name = "title_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_title_genre")),
@@ -120,9 +110,19 @@ public class Title extends BaseEntity {
         }
 
         if ( title.getGenres() != null || !title.getGenres().isEmpty() ) {
-            this.genres = title.getGenres();
+            this.addAllGenres(title.getGenres());
         }
 
+    }
+
+    public void addGenre(final Genre genre) {
+        this.genres.add(genre);
+        genre.getTitles().add(this);
+    }
+
+    public void addAllGenres(final Set<Genre> genres) {
+        genres.forEach(genre -> genre.getTitles().add(this));
+        this.genres.addAll(genres);
     }
 
 }

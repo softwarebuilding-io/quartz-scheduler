@@ -99,7 +99,7 @@ public class TitleDto implements Serializable {
         return this.releaseYear;
     }
 
-    public void setReleaseYear( final Long releaseYear ) {
+    public void setReleaseYear( final long releaseYear ) {
         this.releaseYear = releaseYear;
     }
 
