@@ -16,3 +16,7 @@ spring:
 server:
   servlet:
     context-path: /fusion-plex
+
+fusion-plex:
+  base-uri: https://api.themoviedb.org/3/
+  bearer-token:

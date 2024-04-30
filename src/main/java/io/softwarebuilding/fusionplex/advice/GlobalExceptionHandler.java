@@ -1,5 +1,6 @@
 package io.softwarebuilding.fusionplex.advice;
 
+import io.softwarebuilding.fusionplex.error.FusionPlexException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ValidationException;
 import org.slf4j.Logger;
@@ -21,6 +22,20 @@ public class GlobalExceptionHandler {
         LOG.error( "An error occurred", exception );
 
         redirectAttributes.addFlashAttribute( "alertMessage", "Oops an error occurred!" );
+        redirectAttributes.addFlashAttribute( "alertType", "danger" );
+
+        final String referer = request.getHeader( "Referer" );
+
+        return "redirect:" + referer;
+    }
+
+    @ExceptionHandler(FusionPlexException.class)
+    public String handleFusionPlexException(
+            final FusionPlexException exception,
+            final RedirectAttributes redirectAttributes, final HttpServletRequest request ) {
+        LOG.error( "An error occurred", exception );
+
+        redirectAttributes.addFlashAttribute( "alertMessage", exception.getMessage());
         redirectAttributes.addFlashAttribute( "alertType", "danger" );
 
         final String referer = request.getHeader( "Referer" );

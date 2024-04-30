@@ -45,7 +45,13 @@
         </tr>
         </tbody>
     </table>
-    <a class="btn btn-dark my-5" role="button" th:href="@{/title/create}">Add New Title</a>
+    <form method="post" th:action="@{/movie/updateLatestPlaying}">
+        <div class="d-flex justify-content-center gap-2">
+            <a class="btn btn-dark my-5" role="button" th:href="@{/title/create}">Add New Title</a>
+            <!-- Update Latest Movies button -->
+            <button class="btn btn-primary my-5" type="submit">Update Latest Playing Movies</button>
+        </div>
+    </form>
 </div>
 <div th:replace="~{fragments/fragments :: scripts}"></div>
 </body>

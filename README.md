@@ -10,6 +10,11 @@ The Fusion Plex system is intended to demonstrate key aspects of web application
 
 These instructions will help you get a copy of the project up and running on your local machine for development and testing purposes.
 
+## Tutorial Overview
+
+In this tutorial overview, we will be diving into the development of a quartz scheduler for Fusion Plex, our catalogue management system. The addition of the quartz scheduler is aimed at automating key operations such as data synchronization with external movie databases, scheduled updates of movie listings, and timely notifications for users. Through this integration, we aim to streamline repetitive tasks, ensuring that Fusion Plex remains up-to-date and efficient in delivering content. This not only enhances the user experience by providing them with the latest information but also significantly reduces manual workload, making our system more robust and reliable.   
+
+
 ### Prerequisites
 
 Before you begin, ensure you have the following installed:
@@ -19,21 +24,36 @@ Before you begin, ensure you have the following installed:
 
 Additionally, familiarity with Spring Boot and PostgreSQL is recommended to fully understand the project setup and functionality.
 
+### TMDB Api Generator
+For this tutorial you need to create a TMDB API tutorial.
+1. Go to the following url https://www.themoviedb.org/
+2. If you don't have an account create one.
+3. After account has been created or you have logged in go to the Settings.
+4. Select API
+5. In the Tab select Generate or Regenerate Key
+6. Copy the API REad Access Token
+7. Paste the Access Token in the application.yaml file under 
+    
+**fusion-pex: bearer-token:**
+
+### Technology Stack for this Tutorial
+* Quartz Scheduler
+
 ### Initial Setup
 
 To obtain the initial project setup, use the base branch of this repository:
 
 ```bash
-git clone -b base git@github.com:brunomilitzer/fusion-plex.git
+git clone -b start git@github.com:softwarebuilding-io/quartz-scheduler.git
 
-cd fusion-plex
+cd quartz-scheduler
 ```
 
-### Base Project
+### Initial Project
 This branch contains the base project structure and configurations necessary to start developing your application.
 
 ```bash
-git checkout base
+git checkout start
 ```
 
 ### Final Project
