@@ -13,9 +13,47 @@ spring:
         default_schema: public
         hbm2ddl:
           auto: none # none, validate, update, create, create-drop
+
+  # Spring Quartz
+  quartz:
+    job-store-type: jdbc
+    scheduler-name: fusion-plex-quartz
+    jdbc:
+      initialize-schema: never
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceName: fusion-plex-quartz
+            instanceId: AUTO
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadPriority: 5
+            threadCount: 25
+          jobStore:
+            dataSource: quartzDS
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate
+            useProperties: false
+            tablePrefix: public.qrtz_
+          dataSource:
+            quartzDS:
+              driver: org.postgresql.Driver
+              URL: jdbc:postgresql://localhost:5432/postgres
+              user: admin
+              password: admin@1234
 server:
   servlet:
     context-path: /fusion-plex
+
+logging:
+  level:
+    org:
+      hibernate:
+        sql: debug
+        type:
+          descriptor:
+            sql: trace
 
 fusion-plex:
   base-uri: https://api.themoviedb.org/3/

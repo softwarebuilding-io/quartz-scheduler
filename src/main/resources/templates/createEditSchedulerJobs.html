@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/fragments :: head}">
+</head>
+<body>
+
+<!-- Include the navbar fragment -->
+<div th:replace="~{fragments/fragments :: navbar}"></div>
+
+<!-- Include the alert fragment -->
+<div th:replace="~{fragments/fragments :: alert}"></div>
+
+<div class="container-fluid mt-5 d-flex flex-column justify-content-center align-items-center">
+    <h2 th:text="${pageTitle}">Manage Scheduler Jobs</h2>
+    <form class="mt-5 w-50 needs-validation" method="post" th:action="@{${formAction}}" th:object="${schedulerJob}">
+        <input th:field="*{id}" type="hidden" />
+        <div class="form-group">
+            <label for="jobName">Job Name</label>
+            <input class="form-control" id="jobName" name="jobName" placeholder="Enter job name"
+                   th:classappend="${#fields.hasErrors('jobName')} ? 'is-invalid'" th:field="*{jobName}" type="text">
+            <div class="invalid-feedback" th:errors="*{jobName}" th:if="${#fields.hasErrors('jobName')}">Job name</div>
+        </div>
+        <div class="form-group">
+            <label for="jobGroup">Job Group</label>
+            <input class="form-control" id="jobGroup" name="jobGroup" placeholder="Enter job group"
+                   th:classappend="${#fields.hasErrors('jobGroup')} ? 'is-invalid'" th:field="*{jobGroup}" type="text">
+            <div class="invalid-feedback" th:errors="*{jobGroup}" th:if="${#fields.hasErrors('jobGroup')}">Job Group</div>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input class="form-control" id="description" name="description" placeholder="Enter description"
+                   th:classappend="${#fields.hasErrors('description')} ? 'is-invalid'" th:field="*{description}" type="text">
+            <div class="invalid-feedback" th:errors="*{description}" th:if="${#fields.hasErrors('description')}">Description</div>
+        </div>
+        <div class="form-group">
+            <label for="jobClass">Job Class</label>
+            <select class="form-control" id="jobClass" name="jobClass" th:classappend="${#fields.hasErrors('jobClass')} ? 'is-invalid'" th:field="*{jobClass}">
+                <option value="">Select job class</option>
+                <option th:each="jobClass : ${jobClasses}"
+                        th:selected="${jobClass.equals(selectedJobClass) ? 'selected' : ''}"
+                        th:text="${jobClass.getJobJame()}"
+                        th:value="${jobClass}">Select job class</option>
+            </select>
+            <div class="invalid-feedback" th:errors="*{jobClass}" th:if="${#fields.hasErrors('jobClass')}">Job Class</div>
+        </div>
+        <div class="form-group">
+            <label for="cronEnabled">Enable Cron Expression</label>
+            <select class="form-control" id="cronEnabled" name="cronJob" th:classappend="${#fields.hasErrors('cronJob')} ? 'is-invalid'">
+                <option th:each="cronJob : ${cronJobs}"
+                        th:selected="${selectedCronJob.equals(cronJob) ? 'selected' : null}"
+                        th:text="${cronJob.description}"
+                        th:value="${cronJob.cronJob}">No</option>
+            </select>
+        </div>
+        <div class="form-group" id="cronExpressionGroup">
+            <label for="cronExpression">Cron Expression</label>
+            <input class="form-control" id="cronExpression" name="cronExpression" placeholder="Enter cron expression"
+                   th:classappend="${#fields.hasErrors('cronExpression')} ? 'is-invalid'" th:field="*{cronExpression}" type="text">
+            <div class="invalid-feedback" th:errors="*{cronExpression}" th:if="${#fields.hasErrors('cronExpression')}">Cron Expression</div>
+        </div>
+        <div class="form-group" id="startTimeGroup">
+            <label for="startTime">Start Time</label>
+            <input class="form-control" id="startTime" name="startTime" placeholder="HH:MM"
+                   th:classappend="${#fields.hasErrors('startTime')} ? 'is-invalid'" th:field="*{startTime}" type="time">
+            <div class="invalid-feedback" th:errors="*{startTime}" th:if="${#fields.hasErrors('startTime')}">Start Time</div>
+        </div>
+        <div class="form-group" id="repeatIntervalGroup">
+            <label for="repeatInterval">Repeat Interval (seconds)</label>
+            <input class="form-control" id="repeatInterval" name="starTime" placeholder="Enter repeat interval in seconds"
+                   th:classappend="${#fields.hasErrors('repeatInterval')} ? 'is-invalid'" th:field="*{repeatInterval}" type="number" min="0">
+            <div class="invalid-feedback" th:errors="*{repeatInterval}" th:if="${#fields.hasErrors('repeatInterval')}">Repeat Interval</div>
+        </div>
+        <div class="form-group" id="repeatCountGroup">
+            <label for="repeatCount">Repeat Count</label>
+            <input class="form-control" id="repeatCount" name="repeatCount" placeholder="Enter repeat count"
+                   th:classappend="${#fields.hasErrors('repeatCount')} ? 'is-invalid'" th:field="*{repeatCount}" type="number" min="0">
+            <div class="invalid-feedback" th:errors="*{repeatCount}" th:if="${#fields.hasErrors('repeatCount')}">Repeat Count</div>
+        </div>
+        <div class="d-flex justify-content-center gap-2 mt-5">
+            <button class="btn btn-dark mt-5" type="submit">Submit</button>
+            <!-- Cancel button -->
+            <a class="btn btn-danger mt-5" th:href="@{/scheduler/cancel}">Cancel</a>
+        </div>
+    </form>
+</div>
+<div th:replace="~{fragments/fragments :: scripts}"></div>
+</body>

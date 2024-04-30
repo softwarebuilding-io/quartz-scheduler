@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/fragments :: head}">
+</head>
+<body>
+
+<!-- Include the navbar fragment -->
+<div th:replace="~{fragments/fragments :: navbar}"></div>
+
+<!-- Include the alert fragment -->
+<div th:replace="~{fragments/fragments :: alert}"></div>
+
+<div class="container-fluid mt-5 d-flex flex-column justify-content-center align-items-center">
+    <h2 class="text-center mt-5">Your Movie, TV Series, Documentary <span
+            class="yellow-text">Catalogue Management</span></h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Job Name</th>
+            <th scope="col">Job Group</th>
+            <th scope="col">Description</th>
+            <th scope="col">Cron Expression</th>
+            <th scope="col">Job Status</th>
+            <th scope="col">Start Time</th>
+            <th scope="col">Repeat Interval (seconds)</th>
+            <th scope="col">Repeat Count</th>
+            <th scope="col">Update Scheduler Status</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="scheduledJob, iterStat : ${schedulerJobs}">
+            <th scope="row" th:text="${iterStat.count}">1</th>
+            <td th:text="${scheduledJob.jobName}">Job Name</td>
+            <td th:text="${scheduledJob.jobGroup}">Job Group</td>
+            <td th:text="${scheduledJob.description}">Description</td>
+            <td th:text="${scheduledJob.cronExpression}">Cron Expression</td>
+            <td th:text="${scheduledJob.jobStatus}">Job Status</td>
+            <td th:text="${scheduledJob.startTime}">Start Time</td>
+            <td th:text="${scheduledJob.repeatInterval}">Repeat Interval</td>
+            <td th:text="${scheduledJob.repeatCount}">Repeat Count</td>
+            <td>
+                <div class="d-inline-block">
+                    <form method="post" th:action="@{/scheduler/pause/{id}(id=${scheduledJob.id})}">
+                        <button class="btn btn-primary btn-sm" type="submit">Pause</button>
+                    </form>
+                </div>
+                <div class="d-inline-block">
+                    <form method="post" th:action="@{/scheduler/resume/{id}(id=${scheduledJob.id})}">
+                        <button class="btn btn-success btn-sm" type="submit">Resume</button>
+                    </form>
+                </div>
+                <div class="d-inline-block">
+                    <form method="post" th:action="@{/scheduler/unschedule/{id}(id=${scheduledJob.id})}">
+                        <button class="btn btn-info btn-sm" type="submit">Unschedule</button>
+                    </form>
+                </div>
+            </td>
+            <td>
+                <div class="d-inline-block">
+                    <form method="post" th:action="@{/scheduler/edit/{id}(id=${scheduledJob.id})}">
+                        <button class="btn btn-warning btn-sm" type="submit">Edit</button>
+                    </form>
+                </div>
+                <div class="d-inline-block">
+                    <form method="post" th:action="@{/scheduler/delete/{id}(id=${scheduledJob.id})}">
+                        <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center gap-2">
+        <a class="btn btn-dark mt-5" role="button" th:href="@{/scheduler/create}">Add New Scheduler</a>
+
+        <form method="post" th:action="@{/scheduler/shutdown}">
+            <button class="btn btn-danger mt-5" type="submit">Shutdown Scheduler</button>
+        </form>
+        <form method="post" th:action="@{/scheduler/start}">
+            <button class="btn btn-success mt-5" type="submit">Initialize Scheduler</button>
+        </form>
+    </div>
+</div>
+<div th:replace="~{fragments/fragments :: scripts}"></div>
+</body>

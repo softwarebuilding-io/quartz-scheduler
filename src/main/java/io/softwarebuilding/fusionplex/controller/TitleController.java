@@ -119,6 +119,17 @@ public class TitleController {
         return "redirect:/title/manage";
     }
 
+    @GetMapping("/scheduler/cancel")
+    public String cancelSchedulerJobEdit(final SessionStatus sessionStatus, final HttpSession session) {
+
+        sessionStatus.setComplete();
+
+        session.removeAttribute("schedulerJob");
+        session.removeAttribute("errors");
+
+        return "redirect:/scheduler/manage";
+    }
+
     private List<GenreDto> findAllGenres() {
         return this.genreService.findAll();
     }
